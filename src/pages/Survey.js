@@ -16,10 +16,10 @@ function Survey({isTutorial, isFinished}) {
     const getQuestions = async () => {
         if(isTutorial) {
             setQuestions([
-                {'surveyQuestionId': 0, 'categoryId': 'AA', 'ngram': 'Test ngram 1'},
-                {'surveyQuestionId': 0, 'categoryId': 'AA', 'ngram': 'Test ngram 2'},
-                {'surveyQuestionId': 0, 'categoryId': 'BB', 'ngram': 'Test ngram 3'},
-                {'surveyQuestionId': 0, 'categoryId': 'BB', 'ngram': 'Test ngram 4'}
+                {'surveyQuestionId': 0, 'categoryId': 'AA', 'ngram': 'Test ngram 1', 'ngramC1Id': 1, 'ngramC1': 'Test ngram C1', 'ngramC2Id': 2, 'ngramC2': 'Test ngram C2'},
+                {'surveyQuestionId': 0, 'categoryId': 'AA', 'ngram': 'Test ngram 2', 'ngramC1Id': 3, 'ngramC1': 'Test ngram C3', 'ngramC2Id': 4, 'ngramC2': 'Test ngram C4'},
+                {'surveyQuestionId': 0, 'categoryId': 'BB', 'ngram': 'Test ngram 3', 'ngramC1Id': 5, 'ngramC1': 'Test ngram C5', 'ngramC2Id': 6, 'ngramC2': 'Test ngram C6'},
+                {'surveyQuestionId': 0, 'categoryId': 'BB', 'ngram': 'Test ngram 4', 'ngramC1Id': 7, 'ngramC1': 'Test ngram C7', 'ngramC2Id': 8, 'ngramC2': 'Test ngram C8'}
             ])
         } else {
             const response = await fetch(`https://y5686nza8b.execute-api.ap-southeast-2.amazonaws.com/dev/questions?sid=${state.sid}`)
@@ -34,6 +34,9 @@ function Survey({isTutorial, isFinished}) {
     const getResponse = (response) => {
         setResponses(responses => [...responses, response])
         setIndex(index + 1)
+        if(isTutorial && index + 1 == questions.length){
+            return isFinished(true)
+        }
     }
 
     const getCategories = async () => {
@@ -95,9 +98,8 @@ function Survey({isTutorial, isFinished}) {
                     <SpinnerComponent /> :
                     index < questions.length ? 
                         <NgramComponent data={questions[index]} description={getDescription()} response={getResponse} /> : 
-                        isTutorial ?
-                            isFinished(true) :
-                            <button className='btn btn-primary btn-lg btn-block' onClick={() => finishSurvey()}>Finish survey</button>}
+                        !isTutorial ?
+                            <button className='btn btn-primary btn-lg btn-block' onClick={() => finishSurvey()}>Finish survey</button>: ""}
             </div>}
         </div>
     )
