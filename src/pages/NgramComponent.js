@@ -55,43 +55,45 @@ class NgramComponent extends React.Component {
     render() {
         return(
             <div className='ngram'>
-                <h3>{this.props.description == null ? 
+                <h3>Task</h3>
+                <p>Both of the questions below refer to the following description:</p>
+                <h5 className="mt-5">Description</h5>
+                <blockquote className="blockquote"><i>{this.props.description == null ? 
                     <SpinnerComponent /> :
-                    this.props.description}</h3>
+                    this.props.description}</i></blockquote>
                 {!this.state.isMatchDone ? 
-                    <div className='row'>                  
-                        <div className='col-md-12 mt-4'>
-                            <div className='form-group'>
-                                <p>Does the following expression match the description above?<br></br>
-                                {this.props.data['ngram']}</p>
-                            </div>
+                    <div className='row'>               
+                        <div className='col-md-12 mt-5'>
+                            <h5>Q1: Does the description above match the following expression?</h5>
+                            <h6 className="mt-4">Expression:</h6>
+                            <p>{this.props.data['ngram']}</p>
                         </div>                      
                         <div className='col-xl-10 col-lg-12 col-md-12'>
+                            <h6 className="mt-4">Answer:</h6>
                             <div className='row'>                           
                                 <div className='col-lg-3 col-md-6 my-1'>
                                     {this.state.random == 0 ? 
-                                    <button className='btn btn-danger btn-block' onClick={() => this.setResponse(1)}>Defenitely not a match</button> :
-                                    <button className='btn btn-success btn-block' onClick={() => this.setResponse(2)}>Definitely a match</button>}
+                                    <button className='btn btn-danger btn-block' onClick={() => this.setResponse(1)}>No, it is not a match</button> :
+                                    <button className='btn btn-success btn-block' onClick={() => this.setResponse(2)}>Yes, it is a match</button>}
                                 </div>
                                 <div className='col-lg-3 col-md-6 my-1'>
                                     {this.state.random == 0 ? 
-                                        <button className='btn btn-success btn-block' onClick={() => this.setResponse(2)}>Definitely a match</button> :
-                                        <button className='btn btn-danger btn-block' onClick={() => this.setResponse(1)}>Defenitely not a match</button>}
+                                        <button className='btn btn-success btn-block' onClick={() => this.setResponse(2)}>Yes, it is a match</button> :
+                                        <button className='btn btn-danger btn-block' onClick={() => this.setResponse(1)}>No, it is not a match</button>}
                                 </div>
                                 <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-secondary btn-block' onClick={() => this.setResponse(0)}>Don't know</button>
+                                    <button className='btn btn-secondary btn-block' onClick={() => this.setResponse(0)}>I can't decide</button>
                                 </div>
                             </div>
                         </div>                      
                     </div> : ""}
                 {!this.state.isCompareDone ? 
-                    <div className='row'> 
+                    <div className='row mb-5'> 
                         <div className='col-md-12 mt-5'>
-                            <div className='form-group'>
-                                <p>Which of the following expressions match the description above?</p>
-                            </div>
+                            <h5>Q2: Which of the following expressions is the BEST match for the description above?</h5>
                         </div>                                        
                         <div className='col-xl-10 col-lg-12 col-md-12'>
+                            <h6 className="mt-4">Answer:</h6>
                             <div className='row'>
                             <div className='col-lg-3 col-md-6 my-1'>
                                     <button className='btn btn-primary btn-block' onClick={() => this.setResponse(this.props.data[this.state.random == 0 ? 'ngramC1Id' : 'ngramC2Id'], true)}>{this.props.data[this.state.random == 0 ? 'ngramC1' : 'ngramC2']}</button>
@@ -100,7 +102,7 @@ class NgramComponent extends React.Component {
                                     <button className='btn btn-primary btn-block' onClick={() => this.setResponse(this.props.data[this.state.random == 0 ? 'ngramC2Id' : 'ngramC1Id'], true)}>{this.props.data[this.state.random == 0 ? 'ngramC2' : 'ngramC1']}</button>
                                 </div>
                                 <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-secondary btn-block' onClick={() => this.setResponse(0, true)}>Don't know</button>
+                                    <button className='btn btn-secondary btn-block' onClick={() => this.setResponse(0, true)}>I can't decide</button>
                                 </div>
                             </div>
                         </div>                      
