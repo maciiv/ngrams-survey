@@ -40,9 +40,9 @@ class NgramComponent extends React.Component {
     }
 
     setResponse = async (response, isCompare = false) => {   
-        this.state.data[isCompare ? 'responseC' : 'response'] = response
+        this.state.data[isCompare ? 'responseHL' : 'response'] = response
         isCompare ? this.toggleCompare(true) : this.toggleMatch(true)
-        if(this.state.data['response'] != undefined && this.state.data['responseC'] != undefined) {
+        if(this.state.data['response'] != undefined && this.state.data['responseHL'] != undefined) {
             this.state.data['surveyQuestionId'] = this.props.data['surveyQuestionId']
             this.props.response(this.state.data)
             this.toggleCompare(false)
@@ -96,10 +96,10 @@ class NgramComponent extends React.Component {
                             <h6 className="mt-4">Answer:</h6>
                             <div className='row'>
                             <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-primary btn-block' onClick={() => this.setResponse(this.props.data[this.state.random == 0 ? 'ngramC1Id' : 'ngramC2Id'], true)}>{this.props.data[this.state.random == 0 ? 'ngramC1' : 'ngramC2']}</button>
+                                    <button className='btn btn-primary btn-block' onClick={() => this.setResponse(this.props.data[this.state.random == 0 ? 'ngramHId' : 'ngramLId'], true)}>{this.props.data[this.state.random == 0 ? 'ngramH' : 'ngramL']}</button>
                                 </div>
                                 <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-primary btn-block' onClick={() => this.setResponse(this.props.data[this.state.random == 0 ? 'ngramC2Id' : 'ngramC1Id'], true)}>{this.props.data[this.state.random == 0 ? 'ngramC2' : 'ngramC1']}</button>
+                                    <button className='btn btn-primary btn-block' onClick={() => this.setResponse(this.props.data[this.state.random == 0 ? 'ngramLId' : 'ngramHId'], true)}>{this.props.data[this.state.random == 0 ? 'ngramL' : 'ngramH']}</button>
                                 </div>
                                 <div className='col-lg-3 col-md-6 my-1'>
                                     <button className='btn btn-secondary btn-block' onClick={() => this.setResponse(0, true)}>I can't decide</button>
