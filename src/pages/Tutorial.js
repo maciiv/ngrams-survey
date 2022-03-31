@@ -6,7 +6,7 @@ function Tutorial() {
     const [finished, setFinished] = useState(Boolean)
     const [isLoading, setIsLoading] = useState(false)
     const query = new URLSearchParams(window.location.search);
-    const pid = query.get("pid")
+    const pid = query.get("PROLIFIC_PID")
     const navigate = useNavigate()
 
     const isFinished = (data) => {
@@ -32,7 +32,7 @@ function Tutorial() {
         <div className='row'>
             <div className='col-md-12'>
                 <h1 className='mt-5'>Tutorial</h1>
-                <p>Tutorial explanation</p>
+                <p>The tasks below are similar to the survey. When the description is highlighted means that the description has changed. Please make yourself familiar with how the survey will work. The answers provided during the tutorial are not recorded.</p>
                 {<Survey isTutorial={true} isFinished={isFinished} />}
                 {finished ? 
                     <button className='btn btn-primary btn-lg btn-block' onClick={() => startSurvey()} disabled={isLoading}>
