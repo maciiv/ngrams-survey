@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const query = new URLSearchParams(window.location.search);
-  const pid = query.get("pid")
+  const pid = query.get("PROLIFIC_PID")
   const navigate = useNavigate()
 
   const getParticipantExists = async () => {

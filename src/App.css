@@ -28,6 +28,28 @@
   color: #61dafb;
 }
 
+.capitalise:first-letter {
+  text-transform: capitalize;
+}
+
+.description {
+  border: #dee2e6 5px solid;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.description.changed {
+  background-color: #ffff00;
+  color: #ffffff;
+  transition: all 0.25 ease-out;
+}
+
+.big-text {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
