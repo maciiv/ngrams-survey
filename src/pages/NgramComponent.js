@@ -14,19 +14,29 @@ class NgramComponent extends React.Component {
             responseHL: 0
         }
     }
+    refR1 = React.createRef();
+    refR2 = React.createRef();
+    refR3 = React.createRef();
+    refC1 = React.createRef();
+    refC2 = React.createRef();
+    refC3 = React.createRef();
 
     setResponse = (e, response) => {   
-        if (this.state.response !== response){
-
-        }
-        e.target.className = e.target.className + " selected"
+        this.refR1.current.className = this.refR1.current.className.replace(" active", "")
+        this.refR2.current.className = this.refR2.current.className.replace(" active", "")
+        this.refR3.current.className = this.refR3.current.className.replace(" active", "")
+        e.target.className = e.target.className + " active"
         this.setState({
             response: response,
             isResponse: true
         })
     }
 
-    setResponseCompare = (response) => {
+    setResponseCompare = (e, response) => {
+        this.refC1.current.className = this.refC1.current.className.replace(" active", "")
+        this.refC2.current.className = this.refC2.current.className.replace(" active", "")
+        this.refC3.current.className = this.refC3.current.className.replace(" active", "")
+        e.target.className = e.target.className + " active"
         this.setState({
             responseHL: response,
             isResponseHL: true
@@ -34,11 +44,12 @@ class NgramComponent extends React.Component {
     }
 
     next = () => {
+        const date = new Date()
         this.props.response({
             'surveyQuestionId': this.props.data['surveyQuestionId'],
             'response': this.state.response,
             'responseHL': this.state.responseHL,
-            'responseDate': Date.now()
+            'responseDate': `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
         })
     }
 
@@ -53,6 +64,12 @@ class NgramComponent extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps !== this.props){
+            this.refR1.current.className = this.refR1.current.className.replace(" active", "")
+            this.refR2.current.className = this.refR2.current.className.replace(" active", "")
+            this.refR3.current.className = this.refR3.current.className.replace(" active", "")
+            this.refC1.current.className = this.refC1.current.className.replace(" active", "")
+            this.refC2.current.className = this.refC2.current.className.replace(" active", "")
+            this.refC3.current.className = this.refC3.current.className.replace(" active", "")
             this.setState({
                 isDescription: false,
                 isResponse: false,
@@ -85,17 +102,28 @@ class NgramComponent extends React.Component {
                         <p className="mt-4 mb-0">Answer:</p>
                         <div className='row'>                           
                             <div className='col-lg-3 col-md-6 my-1'>
-                                {this.state.random === 0 ? 
-                                <button className='btn btn-danger btn-block' onClick={(e) => this.setResponse(e, 1)} disabled={!this.state.isDescription}>No, it is not a match</button> :
-                                <button className='btn btn-success btn-block' onClick={(e) => this.setResponse(e, 2)} disabled={!this.state.isDescription}>Yes, it is a match</button>}
+                                <button ref={this.refR1}
+                                className={`btn btn-${this.state.random === 0 ? "danger" : "success"} btn-block`}
+                                onClick={(e) => this.setResponse(e, this.state.random === 0 ? 1 : 2)} 
+                                disabled={!this.state.isDescription}>
+                                    {this.state.random === 0 ? "No, it is not a match" : "Yes, it is a match"}
+                                </button>
                             </div>
                             <div className='col-lg-3 col-md-6 my-1'>
-                                {this.state.random === 0 ? 
-                                    <button className='btn btn-success btn-block' onClick={(e) => this.setResponse(e, 2)} disabled={!this.state.isDescription}>Yes, it is a match</button> :
-                                    <button className='btn btn-danger btn-block' onClick={(e) => this.setResponse(e, 1)} disabled={!this.state.isDescription}>No, it is not a match</button>}
+                                <button  ref={this.refR2}
+                                className={`btn btn-${this.state.random === 0 ? "success" : "danger"} btn-block`}
+                                onClick={(e) => this.setResponse(e, this.state.random === 0 ? 2 : 1)} 
+                                disabled={!this.state.isDescription}>
+                                    {this.state.random === 0 ? "Yes, it is a match" : "No, it is not a match"}
+                                </button>
                             </div>
                             <div className='col-lg-3 col-md-6 my-1'>
-                                <button className='btn btn-secondary btn-block' onClick={(e) => this.setResponse(e, 0)} disabled={!this.state.isDescription}>I can't decide</button>
+                                <button ref={this.refR3}
+                                className='btn btn-secondary btn-block' 
+                                onClick={(e) => this.setResponse(e, 0)} 
+                                disabled={!this.state.isDescription}>
+                                    I can't decide
+                                </button>
                             </div>
                         </div>
                     </div>                      
@@ -108,13 +136,28 @@ class NgramComponent extends React.Component {
                         <p className="mt-4 mb-0">Answer:</p>
                         <div className='row'>
                         <div className='col-lg-3 col-md-6 my-1'>
-                                <button className='btn btn-primary btn-block' onClick={() => this.setResponseCompare(this.props.data[this.state.random === 0 ? 'ngramHId' : 'ngramLId'], true)} disabled={!this.state.isDescription}>{this.props.data[this.state.random === 0 ? 'ngramH' : 'ngramL']}</button>
+                                <button ref={this.refC1}
+                                className='btn btn-primary btn-block' 
+                                onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramHId' : 'ngramLId'])} 
+                                disabled={!this.state.isDescription}>
+                                        {this.props.data[this.state.random === 0 ? 'ngramH' : 'ngramL']}
+                                </button>
                             </div>
                             <div className='col-lg-3 col-md-6 my-1'>
-                                <button className='btn btn-primary btn-block' onClick={() => this.setResponseCompare(this.props.data[this.state.random === 0 ? 'ngramLId' : 'ngramHId'], true)} disabled={!this.state.isDescription}>{this.props.data[this.state.random === 0 ? 'ngramL' : 'ngramH']}</button>
+                                <button ref={this.refC2}
+                                className='btn btn-primary btn-block' 
+                                onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramLId' : 'ngramHId'])} 
+                                disabled={!this.state.isDescription}>
+                                    {this.props.data[this.state.random === 0 ? 'ngramL' : 'ngramH']}
+                                </button>
                             </div>
                             <div className='col-lg-3 col-md-6 my-1'>
-                                <button className='btn btn-secondary btn-block' onClick={() => this.setResponseCompare(0, true)}>I can't decide</button>
+                                <button ref={this.refC3}
+                                className='btn btn-secondary btn-block' 
+                                onClick={(e) => this.setResponseCompare(e, 0)}
+                                disabled={!this.state.isDescription}>
+                                    I can't decide
+                                </button>
                             </div>
                         </div>
                     </div>                      

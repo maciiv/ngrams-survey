@@ -64,7 +64,6 @@ function Survey({isTutorial, isFinished}) {
     }
     
     const getResponse = (response) => {
-        console.log(response)
         setResponses(responses => [...responses, response])
         setIndex(index + 1)
         if(isTutorial && index + 1 === questions.length){
@@ -117,10 +116,11 @@ function Survey({isTutorial, isFinished}) {
         }
         })
         if(!response.ok) {
+            console.log(response)
             return navigate('/survey-error')
         }
-        navigate("/survey-complete")
-        //navigate("https://app.prolific.co/submissions/complete?cc=5F64F959")
+        //navigate("/survey-complete")
+        navigate("https://app.prolific.co/submissions/complete?cc=5F64F959")
     }
 
     return(

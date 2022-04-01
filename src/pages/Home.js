@@ -48,7 +48,7 @@ function Home() {
         <p>Participation will involve answering questions about whether you think groups of words match or don't match a written description. 
           Questions are grouped into a prolific task that is expected to take approximately 20 minutes of your time for which you will be 
           paid according to the rate advertised on Prolific. Questions will be in the following format:</p>
-        <p>Question example???</p>
+        <img src='question_example.png' className='img-fluid' />
         <p>Your participation in this project is entirely voluntary. If you agree to participate you do not have to complete any question(s) 
           you are uncomfortable answering. Your decision to participate or not participate will in no way impact upon your current or future 
           relationship with QUT. If you do agree to participate you can withdraw at any time without comment, however incomplete tasks will 
