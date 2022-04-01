@@ -24,7 +24,7 @@ function Home() {
     if(participantExists) {
       return navigate('survey-complete')
     }
-    navigate(`tutorial?pid=${pid}`)
+    navigate(`tutorial?PROLIFIC_PID=${pid}`)
   }
 
   return (

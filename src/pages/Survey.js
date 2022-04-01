@@ -26,7 +26,7 @@ function Survey({isTutorial, isFinished}) {
                     'ngramL': 'however i still'
                 },
                 {
-                    'surveyQuestionId': 0, 
+                    'surveyQuestionId': 1, 
                     'categoryId': 'AA', 
                     'ngram': 'where i am', 
                     'ngramHId': 3, 
@@ -35,7 +35,7 @@ function Survey({isTutorial, isFinished}) {
                     'ngramL': 'which i \'m'
                 },
                 {
-                    'surveyQuestionId': 0, 
+                    'surveyQuestionId': 2, 
                     'categoryId': 'BB', 
                     'ngram': 'they do n\'t', 
                     'ngramHId': 5, 
@@ -44,7 +44,7 @@ function Survey({isTutorial, isFinished}) {
                     'ngramL': 'i chose to'
                 },
                 {
-                    'surveyQuestionId': 0, 
+                    'surveyQuestionId': 3, 
                     'categoryId': 'BB', 
                     'ngram': 'hopefully i can', 
                     'ngramHId': 7, 
@@ -64,6 +64,7 @@ function Survey({isTutorial, isFinished}) {
     }
     
     const getResponse = (response) => {
+        console.log(response)
         setResponses(responses => [...responses, response])
         setIndex(index + 1)
         if(isTutorial && index + 1 === questions.length){
