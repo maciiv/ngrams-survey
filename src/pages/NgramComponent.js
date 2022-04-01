@@ -5,64 +5,79 @@ class NgramComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-            isMatchDone: false,
-            isCompareDone: false,
-            random: 0,
+            isDescription: false,
+            isResponse: false,
+            isResponseHL: false,
+            random:  Math.floor(Math.random() * 2),
             descriptionChange: false,
-            data: {}
+            response: 0,
+            responseHL: 0
         }
-        this.toggleMatch = this.toggleMatch.bind(this)
-        this.toggleCompare = this.toggleCompare.bind(this)
-        this.setRandom = this.setRandom.bind(this)
     }
-    updateTimer = {};
+    refR1 = React.createRef();
+    refR2 = React.createRef();
+    refR3 = React.createRef();
+    refC1 = React.createRef();
+    refC2 = React.createRef();
+    refC3 = React.createRef();
 
-    toggleMatch = (set) => {
-        this.setState(({isMatchDone}) => ({
-            isMatchDone: set
-        }))
+    setResponse = (e, response) => {   
+        this.refR1.current.className = this.refR1.current.className.replace(" active", "")
+        this.refR2.current.className = this.refR2.current.className.replace(" active", "")
+        this.refR3.current.className = this.refR3.current.className.replace(" active", "")
+        e.target.className = e.target.className + " active"
+        this.setState({
+            response: response,
+            isResponse: true
+        })
     }
 
-    toggleCompare = (set) => {
-        this.setState(({isCompareDone}) => ({
-            isCompareDone: set
-        }))
+    setResponseCompare = (e, response) => {
+        this.refC1.current.className = this.refC1.current.className.replace(" active", "")
+        this.refC2.current.className = this.refC2.current.className.replace(" active", "")
+        this.refC3.current.className = this.refC3.current.className.replace(" active", "")
+        e.target.className = e.target.className + " active"
+        this.setState({
+            responseHL: response,
+            isResponseHL: true
+        })
     }
 
-    setRandom = () => {
-        this.setState(({random}) => ({
+    next = () => {
+        const date = new Date()
+        this.props.response({
+            'surveyQuestionId': this.props.data['surveyQuestionId'],
+            'response': this.state.response,
+            'responseHL': this.state.responseHL,
+            'responseDate': `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+        })
+    }
+
+    componentDidMount() {
+        this.setState({
+            isDescription: false,
+            isResponse: false,
+            isResponseHL: false,
             random: Math.floor(Math.random() * 2)
-        }))        
-    }
-
-    setResponse = async (response, isCompare = false) => {   
-        this.state.data[isCompare ? 'responseHL' : 'response'] = response
-        isCompare ? this.toggleCompare(true) : this.toggleMatch(true)
-        if(this.state.data['response'] !== undefined && this.state.data['responseHL'] !== undefined) {
-            this.state.data['surveyQuestionId'] = this.props.data['surveyQuestionId']
-            this.props.response(this.state.data)
-            this.toggleCompare(false)
-            this.toggleMatch(false)
-            this.setRandom()
-            this.state.data = {}
-        }
+        })
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.description !== this.props.description){
+        if (prevProps !== this.props){
+            this.refR1.current.className = this.refR1.current.className.replace(" active", "")
+            this.refR2.current.className = this.refR2.current.className.replace(" active", "")
+            this.refR3.current.className = this.refR3.current.className.replace(" active", "")
+            this.refC1.current.className = this.refC1.current.className.replace(" active", "")
+            this.refC2.current.className = this.refC2.current.className.replace(" active", "")
+            this.refC3.current.className = this.refC3.current.className.replace(" active", "")
             this.setState({
-                descriptionChange: true
+                isDescription: false,
+                isResponse: false,
+                isResponseHL: false,
+                random: Math.floor(Math.random() * 2),
+                descriptionChange: prevProps.description !== this.props.description
             })
-            this.updateTimer = setTimeout(() => {
-                this.setState({
-                    descriptionChange: false
-                })
-            }, 250)
         }
-    }
-
-    componentWillUnmount(){
-        clearTimeout(this.updateTimer)
     }
 
     render() {
@@ -70,55 +85,88 @@ class NgramComponent extends React.Component {
             <div className='ngram'>
                 <h3>Task</h3>
                 <p>Both of the questions below refer to the following description:</p>
-                <p className={`big-text description ${this.state.descriptionChange ? 'changed' : ''}`}><i>{this.props.description == null ? 
-                    <SpinnerComponent /> :
-                    this.props.description}</i></p>
-                {!this.state.isMatchDone ? 
-                    <div className='row'>               
-                        <div className='col-md-12 mt-5'>
-                            <h5>Q1: Does the description above match the following expression?</h5>
-                            <p className="mt-4 mb-0">Expression:</p>
-                            <p className="big-text capitalise">{this.props.data['ngram']}</p>
-                        </div>                      
-                        <div className='col-xl-10 col-lg-12 col-md-12'>
-                            <p className="mt-4 mb-0">Answer:</p>
-                            <div className='row'>                           
-                                <div className='col-lg-3 col-md-6 my-1'>
-                                    {this.state.random === 0 ? 
-                                    <button className='btn btn-danger btn-block' onClick={() => this.setResponse(1)}>No, it is not a match</button> :
-                                    <button className='btn btn-success btn-block' onClick={() => this.setResponse(2)}>Yes, it is a match</button>}
-                                </div>
-                                <div className='col-lg-3 col-md-6 my-1'>
-                                    {this.state.random === 0 ? 
-                                        <button className='btn btn-success btn-block' onClick={() => this.setResponse(2)}>Yes, it is a match</button> :
-                                        <button className='btn btn-danger btn-block' onClick={() => this.setResponse(1)}>No, it is not a match</button>}
-                                </div>
-                                <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-secondary btn-block' onClick={() => this.setResponse(0)}>I can't decide</button>
-                                </div>
-                            </div>
-                        </div>                      
-                    </div> : ""}
-                {!this.state.isCompareDone ? 
-                    <div className='row mb-5'> 
-                        <div className='col-md-12 mt-5'>
-                            <h5>Q2: Which of the following expressions is the BEST match for the description above?</h5>
-                        </div>                                        
-                        <div className='col-xl-10 col-lg-12 col-md-12'>
-                            <p className="mt-4 mb-0">Answer:</p>
-                            <div className='row'>
+                <p className={`big-text description ${this.state.descriptionChange ? 'changed' : ''} ${this.state.isDescription ? 'clicked' : ""}`} onClick={() => this.setState({isDescription: true})}>
+                    <i>
+                        {this.props.description == null ? 
+                            <SpinnerComponent /> :
+                            this.props.description}
+                    </i>
+                </p>
+                <div className='row'>               
+                    <div className='col-md-12 mt-5'>
+                        <h5>Q1: Does the description above match the following expression?</h5>
+                        <p className="mt-4 mb-0">Expression:</p>
+                        <p className="big-text expression">{this.props.data['ngram']}</p>
+                    </div>                      
+                    <div className='col-xl-10 col-lg-12 col-md-12'>
+                        <p className="mt-4 mb-0">Answer:</p>
+                        <div className='row'>                           
                             <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-primary btn-block capitalise' onClick={() => this.setResponse(this.props.data[this.state.random === 0 ? 'ngramHId' : 'ngramLId'], true)}>{this.props.data[this.state.random === 0 ? 'ngramH' : 'ngramL']}</button>
-                                </div>
-                                <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-primary btn-block capitalise' onClick={() => this.setResponse(this.props.data[this.state.random === 0 ? 'ngramLId' : 'ngramHId'], true)}>{this.props.data[this.state.random === 0 ? 'ngramL' : 'ngramH']}</button>
-                                </div>
-                                <div className='col-lg-3 col-md-6 my-1'>
-                                    <button className='btn btn-secondary btn-block' onClick={() => this.setResponse(0, true)}>I can't decide</button>
-                                </div>
+                                <button ref={this.refR1}
+                                className={`btn btn-${this.state.random === 0 ? "danger" : "success"} btn-block`}
+                                onClick={(e) => this.setResponse(e, this.state.random === 0 ? 1 : 2)} 
+                                disabled={!this.state.isDescription}>
+                                    {this.state.random === 0 ? "No, it is not a match" : "Yes, it is a match"}
+                                </button>
                             </div>
-                        </div>                      
-                    </div> : ""}  
+                            <div className='col-lg-3 col-md-6 my-1'>
+                                <button  ref={this.refR2}
+                                className={`btn btn-${this.state.random === 0 ? "success" : "danger"} btn-block`}
+                                onClick={(e) => this.setResponse(e, this.state.random === 0 ? 2 : 1)} 
+                                disabled={!this.state.isDescription}>
+                                    {this.state.random === 0 ? "Yes, it is a match" : "No, it is not a match"}
+                                </button>
+                            </div>
+                            <div className='col-lg-3 col-md-6 my-1'>
+                                <button ref={this.refR3}
+                                className='btn btn-secondary btn-block' 
+                                onClick={(e) => this.setResponse(e, 0)} 
+                                disabled={!this.state.isDescription}>
+                                    I can't decide
+                                </button>
+                            </div>
+                        </div>
+                    </div>                      
+                </div>
+                <div className='row mb-5'> 
+                    <div className='col-md-12 mt-5'>
+                        <h5>Q2: Which of the following expressions is the BEST match for the description above?</h5>
+                    </div>                                        
+                    <div className='col-xl-10 col-lg-12 col-md-12'>
+                        <p className="mt-4 mb-0">Answer:</p>
+                        <div className='row'>
+                        <div className='col-lg-3 col-md-6 my-1'>
+                                <button ref={this.refC1}
+                                className='btn btn-primary btn-block' 
+                                onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramHId' : 'ngramLId'])} 
+                                disabled={!this.state.isDescription}>
+                                        {this.props.data[this.state.random === 0 ? 'ngramH' : 'ngramL']}
+                                </button>
+                            </div>
+                            <div className='col-lg-3 col-md-6 my-1'>
+                                <button ref={this.refC2}
+                                className='btn btn-primary btn-block' 
+                                onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramLId' : 'ngramHId'])} 
+                                disabled={!this.state.isDescription}>
+                                    {this.props.data[this.state.random === 0 ? 'ngramL' : 'ngramH']}
+                                </button>
+                            </div>
+                            <div className='col-lg-3 col-md-6 my-1'>
+                                <button ref={this.refC3}
+                                className='btn btn-secondary btn-block' 
+                                onClick={(e) => this.setResponseCompare(e, 0)}
+                                disabled={!this.state.isDescription}>
+                                    I can't decide
+                                </button>
+                            </div>
+                        </div>
+                    </div>                      
+                </div>
+                <div className='row mb-5'>
+                    <div className='col-md-12 mt-3 d-flex'>
+                        <button className='btn btn-primary btn-block w-50 mx-auto' disabled={!this.state.isResponse || !this.state.isResponseHL} onClick={() => this.next()}>Next</button>
+                    </div>
+                </div>
             </div>           
         )
     }
