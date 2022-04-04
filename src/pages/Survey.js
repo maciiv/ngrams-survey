@@ -11,6 +11,7 @@ function Survey({isTutorial, isFinished}) {
     const [index, setIndex] = useState(0)
     const [categories, setCategories] = useState([])
     const [isSaving, setIsSaving] = useState(false)
+    const [isDone, setIsDone] = useState(false)
     const navigate = useNavigate()
 
     const getQuestions = async () => {
@@ -119,17 +120,17 @@ function Survey({isTutorial, isFinished}) {
             console.log(response)
             return navigate('/survey-error')
         }
-        //navigate("/survey-complete")
-        navigate("https://app.prolific.co/submissions/complete?cc=5F64F959")
+        setIsDone(true)
     }
 
     return(
         <div className='row'>
             {isSaving ? 
                     <div className='col-md-12'>
-                        <h3 className='my-5'>Your responses are processing. Please wait and you will be redirected to Prolific</h3>
+                        <h3 className='my-5'>Your responses are being processed. Please wait and you will be see a button to go to Prolific</h3>
                         <div className='d-flex justify-content-center'>
-                            <SpinnerComponent style={{width: '5rem', height: '5rem'}} />
+                            {isDone ? <a href="https://app.prolific.co/submissions/complete?cc=5F64F959" className='btn btn-success btn-lg btn-block'>Go to Prolific</a> :
+                                <SpinnerComponent style={{width: '5rem', height: '5rem'}} />}
                         </div>
                     </div> :
             <div className='col-md-12'>                    
