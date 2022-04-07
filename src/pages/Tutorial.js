@@ -32,7 +32,7 @@ function Tutorial() {
         <div className='row'>
             <div className='col-md-12'>
                 <h1 className='mt-5'>Tutorial</h1>
-                <p>The tasks below are similar to the survey. The survey has a total of 80 tasks and every 20 tasks the description will change. To start a task you need to click the description, this will enable the answers buttons. Once you have selected your answer, click next to proceed to the next task. When the description is highlighted with yellow, it means that the description has changed. Please make yourself familiar with how the survey will work. The answers provided during the tutorial are not recorded.</p>
+                <p>The questions below are similar to the survey. The survey has a total of 50 questions with one description. To start answering you need to click the description, this will enable the answers buttons. Once you have selected your answer, click next to proceed to the next question. Please make yourself familiar with how the survey will work. The answers provided during the tutorial are not recorded.</p>
                 {<Survey isTutorial={true} isFinished={isFinished} />}
                 {finished ? 
                     <button className='btn btn-primary btn-lg btn-block' onClick={() => startSurvey()} disabled={isLoading}>

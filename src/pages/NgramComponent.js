@@ -7,7 +7,7 @@ class NgramComponent extends React.Component {
         this.state = {
             isDescription: false,
             isResponse: false,
-            isResponseHL: false,
+            isResponseHL: true,
             random:  Math.floor(Math.random() * 2),
             descriptionChange: false,
             response: 0,
@@ -57,7 +57,7 @@ class NgramComponent extends React.Component {
         this.setState({
             isDescription: false,
             isResponse: false,
-            isResponseHL: false,
+            isResponseHL: true,
             random: Math.floor(Math.random() * 2)
         })
     }
@@ -67,24 +67,62 @@ class NgramComponent extends React.Component {
             this.refR1.current.className = this.refR1.current.className.replace(" active", "")
             this.refR2.current.className = this.refR2.current.className.replace(" active", "")
             this.refR3.current.className = this.refR3.current.className.replace(" active", "")
-            this.refC1.current.className = this.refC1.current.className.replace(" active", "")
-            this.refC2.current.className = this.refC2.current.className.replace(" active", "")
-            this.refC3.current.className = this.refC3.current.className.replace(" active", "")
+            //this.refC1.current.className = this.refC1.current.className.replace(" active", "")
+            //this.refC2.current.className = this.refC2.current.className.replace(" active", "")
+            //this.refC3.current.className = this.refC3.current.className.replace(" active", "")
             this.setState({
                 isDescription: false,
                 isResponse: false,
-                isResponseHL: false,
+                isResponseHL: true,
                 random: Math.floor(Math.random() * 2),
                 descriptionChange: prevProps.description !== this.props.description
             })
         }
     }
 
+    q2() {
+        return(
+            <div className='row mb-5'>
+                    <div className='col-md-12 mt-5'>
+                        <h5>Q2: Which of the following expressions is the BEST match for the description above?</h5>
+                    </div>                                        
+                    <div className='col-xl-10 col-lg-12 col-md-12'>
+                        <p className="mt-4 mb-0">Answer:</p>
+                        <div className='row'>
+                        <div className='col-lg-3 col-md-6 my-1'>
+                            <button ref={this.refC1}
+                            className='btn btn-primary btn-block' 
+                            onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramHId' : 'ngramLId'])} 
+                            disabled={!this.state.isDescription}>
+                                    {this.props.data[this.state.random === 0 ? 'ngramH' : 'ngramL']}
+                            </button>
+                        </div>
+                        <div className='col-lg-3 col-md-6 my-1'>
+                            <button ref={this.refC2}
+                            className='btn btn-primary btn-block' 
+                            onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramLId' : 'ngramHId'])} 
+                            disabled={!this.state.isDescription}>
+                                {this.props.data[this.state.random === 0 ? 'ngramL' : 'ngramH']}
+                            </button>
+                        </div>
+                        <div className='col-lg-3 col-md-6 my-1'>
+                            <button ref={this.refC3}
+                            className='btn btn-secondary btn-block' 
+                            onClick={(e) => this.setResponseCompare(e, 0)}
+                            disabled={!this.state.isDescription}>
+                                I can't decide
+                            </button>
+                        </div>
+                    </div>
+                </div>                      
+            </div>
+        )
+    }
+
     render() {
         return(
             <div className='ngram'>
-                <h3>Task</h3>
-                <p>Both of the questions below refer to the following description:</p>
+                <h5>Description</h5>
                 <p className={`big-text description ${this.state.descriptionChange ? 'changed' : ''} ${this.state.isDescription ? 'clicked' : ""}`} onClick={() => this.setState({isDescription: true})}>
                     <i>
                         {this.props.description == null ? 
@@ -94,7 +132,7 @@ class NgramComponent extends React.Component {
                 </p>
                 <div className='row'>               
                     <div className='col-md-12 mt-5'>
-                        <h5>Q1: Does the description above match the following expression?</h5>
+                        <h5>Does the description above match the following expression?</h5>
                         <p className="mt-4 mb-0">Expression:</p>
                         <p className="big-text expression">{this.props.data['ngram']}</p>
                     </div>                      
@@ -127,41 +165,7 @@ class NgramComponent extends React.Component {
                             </div>
                         </div>
                     </div>                      
-                </div>
-                <div className='row mb-5'> 
-                    <div className='col-md-12 mt-5'>
-                        <h5>Q2: Which of the following expressions is the BEST match for the description above?</h5>
-                    </div>                                        
-                    <div className='col-xl-10 col-lg-12 col-md-12'>
-                        <p className="mt-4 mb-0">Answer:</p>
-                        <div className='row'>
-                        <div className='col-lg-3 col-md-6 my-1'>
-                                <button ref={this.refC1}
-                                className='btn btn-primary btn-block' 
-                                onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramHId' : 'ngramLId'])} 
-                                disabled={!this.state.isDescription}>
-                                        {this.props.data[this.state.random === 0 ? 'ngramH' : 'ngramL']}
-                                </button>
-                            </div>
-                            <div className='col-lg-3 col-md-6 my-1'>
-                                <button ref={this.refC2}
-                                className='btn btn-primary btn-block' 
-                                onClick={(e) => this.setResponseCompare(e, this.props.data[this.state.random === 0 ? 'ngramLId' : 'ngramHId'])} 
-                                disabled={!this.state.isDescription}>
-                                    {this.props.data[this.state.random === 0 ? 'ngramL' : 'ngramH']}
-                                </button>
-                            </div>
-                            <div className='col-lg-3 col-md-6 my-1'>
-                                <button ref={this.refC3}
-                                className='btn btn-secondary btn-block' 
-                                onClick={(e) => this.setResponseCompare(e, 0)}
-                                disabled={!this.state.isDescription}>
-                                    I can't decide
-                                </button>
-                            </div>
-                        </div>
-                    </div>                      
-                </div>
+                </div>               
                 <div className='row mb-5'>
                     <div className='col-md-12 mt-3 d-flex'>
                         <button className='btn btn-primary btn-block w-50 mx-auto' disabled={!this.state.isResponse || !this.state.isResponseHL} onClick={() => this.next()}>Next</button>
