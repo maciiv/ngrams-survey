@@ -37,7 +37,7 @@ function Survey({isTutorial, isFinished}) {
                 },
                 {
                     'surveyQuestionId': 2, 
-                    'categoryId': 'BB', 
+                    'categoryId': 'AA', 
                     'ngram': 'they do n\'t', 
                     'ngramHId': 5, 
                     'ngramH': 'where i can', 
@@ -46,7 +46,7 @@ function Survey({isTutorial, isFinished}) {
                 },
                 {
                     'surveyQuestionId': 3, 
-                    'categoryId': 'BB', 
+                    'categoryId': 'AA', 
                     'ngram': 'hopefully i can', 
                     'ngramHId': 7, 
                     'ngramH': 'i plan to', 
