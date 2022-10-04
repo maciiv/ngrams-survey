@@ -139,7 +139,7 @@ class NgramComponent extends React.Component {
                     <div className='col-xl-10 col-lg-12 col-md-12'>
                         <p className="mt-4 mb-0">Answer:</p>
                         <div className='row'>                           
-                            <div className='col-lg-3 col-md-6 my-1'>
+                            {/* <div className='col-lg-3 col-md-6 my-1'>
                                 <button ref={this.refR1}
                                 className={`btn btn-${this.state.random === 0 ? "danger" : "success"} btn-block`}
                                 onClick={(e) => this.setResponse(e, this.state.random === 0 ? 1 : 2)} 
@@ -153,6 +153,22 @@ class NgramComponent extends React.Component {
                                 onClick={(e) => this.setResponse(e, this.state.random === 0 ? 2 : 1)} 
                                 disabled={!this.state.isDescription}>
                                     {this.state.random === 0 ? "Yes, it is a match" : "No, it is not a match"}
+                                </button>
+                            </div> */}
+                            <div className='col-lg-3 col-md-6 my-1'>
+                                <button ref={this.refR1}
+                                className='btn btn-success btn-block'
+                                onClick={(e) => this.setResponse(e, 2)} 
+                                disabled={!this.state.isDescription}>
+                                    Yes, it is a match
+                                </button>
+                            </div>
+                            <div className='col-lg-3 col-md-6 my-1'>
+                                <button  ref={this.refR2}
+                                className='btn btn-danger btn-block'
+                                onClick={(e) => this.setResponse(e, 1)} 
+                                disabled={!this.state.isDescription}>
+                                    No, it is not a match
                                 </button>
                             </div>
                             <div className='col-lg-3 col-md-6 my-1'>
