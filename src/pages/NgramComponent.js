@@ -5,7 +5,7 @@ class NgramComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-            isDescription: false,
+            isDescription: true,
             isResponse: false,
             isResponseHL: true,
             random:  Math.floor(Math.random() * 2),
@@ -55,7 +55,7 @@ class NgramComponent extends React.Component {
 
     componentDidMount() {
         this.setState({
-            isDescription: false,
+            isDescription: true,
             isResponse: false,
             isResponseHL: true,
             random: Math.floor(Math.random() * 2)
@@ -71,7 +71,7 @@ class NgramComponent extends React.Component {
             //this.refC2.current.className = this.refC2.current.className.replace(" active", "")
             //this.refC3.current.className = this.refC3.current.className.replace(" active", "")
             this.setState({
-                isDescription: false,
+                isDescription: true,
                 isResponse: false,
                 isResponseHL: true,
                 random: Math.floor(Math.random() * 2),
@@ -123,7 +123,7 @@ class NgramComponent extends React.Component {
         return(
             <div className='ngram'>
                 <h5>Description</h5>
-                <p className={`big-text description ${this.state.descriptionChange ? 'changed' : ''} ${this.state.isDescription ? 'clicked' : ""}`} onClick={() => this.setState({isDescription: true})}>
+                <p className={`big-text description ${this.state.descriptionChange ? 'changed' : ''} ${this.state.isDescription ? 'clicked' : ""}`}>
                     <i>
                         {this.props.description == null ? 
                             <SpinnerComponent /> :
@@ -132,7 +132,7 @@ class NgramComponent extends React.Component {
                 </p>
                 <div className='row'>               
                     <div className='col-md-12 mt-5'>
-                        <h5>Does the description above match the following expression?</h5>
+                        <h5>Is the expression below a good example for the description above?</h5>
                         <p className="mt-4 mb-0">Expression:</p>
                         <p className="big-text expression">{this.props.data['ngram']}</p>
                     </div>                      
@@ -160,7 +160,7 @@ class NgramComponent extends React.Component {
                                 className='btn btn-success btn-block'
                                 onClick={(e) => this.setResponse(e, 2)} 
                                 disabled={!this.state.isDescription}>
-                                    Yes, it is a match
+                                    Yes, good example
                                 </button>
                             </div>
                             <div className='col-lg-3 col-md-6 my-1'>
@@ -168,7 +168,7 @@ class NgramComponent extends React.Component {
                                 className='btn btn-danger btn-block'
                                 onClick={(e) => this.setResponse(e, 1)} 
                                 disabled={!this.state.isDescription}>
-                                    No, it is not a match
+                                    No, poor example
                                 </button>
                             </div>
                             <div className='col-lg-3 col-md-6 my-1'>

@@ -45,7 +45,8 @@ function Home() {
         <p>You are invited to participate in this project because you have been selected through the Prolific crowd-sourcing platform as 
           being willing to answer questions for research, and because your primary language is English.</p>
         <h4 className="mt-4">Participation</h4>
-        <p>Participation will involve answering questions about whether you think groups of words match or don't match a written description. 
+        <p>Participation will involve answering questions about whether you think groups of words are a good or poor example of a written description.
+          <b>A number of questions will be used as attention checks. Evidence of inattention to the task will result in partial or no payment.</b>
           Questions are grouped into a prolific task that is expected to take approximately 5 minutes of your time for which you will be 
           paid according to the rate advertised on Prolific. Questions will be in the following format:</p>
         <img src='question_example.png' className='img-fluid' />
